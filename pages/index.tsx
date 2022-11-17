@@ -1,19 +1,36 @@
-import Head from 'next/head';
-import Layout, { siteTitle } from '../components/layout';
+import Layout from '../components/layout';
 import utilStyles from '../styles/utils.module.css';
+import Book from '../components/book';
 
-export default function Home() {
+export type BookType = {
+  id: number;
+  title: string;
+  author: string;
+  description: string;
+  cover: string;
+}
+
+type Props = {
+  books: BookType[];
+}
+
+export async function getServerSideProps() {
+  const res = await fetch('https://my.api.mockaroo.com/books.json?key=b843f290');
+  const books = await res.json();
+
+  return {
+    props: {
+      books,
+    },
+  };
+}
+
+export default function Home({ books }: Props) {
   return (
-    <Layout home>
-      <Head>
-        <title>{siteTitle}</title>
-      </Head>
+    <Layout title='Livros' home>
       <section className={utilStyles.headingMd}>
-        <p>Estou testando Next.js</p>
-        <p>
-          (This is a sample website - you&apos;ll be building a site like this on{' '}
-          <a href="https://nextjs.org/learn">our Next.js tutorial</a>.)
-        </p>
+        <p>Livros:</p>
+        {books.map((book) => <Book key={book.id} book={book} />)}
       </section>
     </Layout>
   );

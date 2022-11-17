@@ -5,7 +5,7 @@ import Layout from "../../components/layout";
 
 export default function FirstBook() {
     return (
-        <Layout>
+        <Layout title="First Book">
             <Head>
                 <title>First Book</title>
                 <link rel="icon" href="/favicon.ico" />
