@@ -1,6 +1,7 @@
 import Layout from '../components/layout';
 import utilStyles from '../styles/utils.module.css';
 import Book from '../components/book';
+import Pagination from '../components/pagination';
 
 export type BookType = {
   id: number;
@@ -26,11 +27,12 @@ export async function getServerSideProps() {
 }
 
 export default function Home({ books }: Props) {
+  const booksComponents = books.map((book) => <Book key={book.id} book={book} />)
   return (
     <Layout title='Livros' home>
       <section className={utilStyles.headingMd}>
         <p>Livros:</p>
-        {books.map((book) => <Book key={book.id} book={book} />)}
+        <Pagination total={booksComponents.length} limit={10} offset={2} components={booksComponents}></Pagination>
       </section>
     </Layout>
   );
